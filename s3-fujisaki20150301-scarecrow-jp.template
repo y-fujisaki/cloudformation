@@ -1,20 +1,43 @@
 {
-   "AWSTemplateFormatVersion": "2010-09-09",
+  "AWSTemplateFormatVersion": "2010-09-09",
 
-   "Description": "website bucket (fujisaki20150301.scarecrow.jp)",
+  "Description": "website bucket (fujisaki20150301.scarecrow.jp)",
 
-   "Resources": {
-     "LogBucket": {
-       "Type": "AWS::S3::Bucket",
-       "Properties": {
-         "BucketName": "fujisaki20150301.scarecrow.jp-log"
-       }
-     },
-     "WebBucket": {
-       "Type": "AWS::S3::Bucket",
-       "Properties": {
-         "BucketName": "fujisaki20150301.scarecrow.jp"
-       }
-     }
-   }
+  "Resources": {
+    "LogBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "fujisaki20150301.scarecrow.jp-log",
+        "AccessControl": "LogDeliveryWrite"
+      }
+    },
+    "WebBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "fujisaki20150301.scarecrow.jp",
+        "WebsiteConfiguration": {
+          "IndexDocument": "index.html",
+          "ErrorDocument": "error.html"
+        },
+          "LoggingConfiguration": {
+             "DestinationBucketName": {"Ref": "LogBucket"},
+             "LogFilePrefix": "logs"
+        }
+      }
+    },
+    "WebBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": "fujisaki20150301.scarecrow.jp",
+        "PolicyDocument": {
+          "Statement": [{
+            "Action": "s3:GetObject",
+            "Effect": "Allow",
+            "Principal": { "AWS": "*" },
+            "Resource": "arn:aws:s3:::fujisaki20150301.scarecrow.jp/*"
+          }]
+        }
+      }
+    }
+  }
 }
