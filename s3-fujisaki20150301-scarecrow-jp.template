@@ -1,0 +1,20 @@
+{
+   "AWSTemplateFormatVersion": "2010-09-09",
+
+   "Description": "website bucket (fujisaki20150301.scarecrow.jp)",
+
+   "Resources": {
+     "LogBucket": {
+       "Type": "AWS::S3::Bucket",
+       "Properties": {
+         "BucketName": "fujisaki20150301.scarecrow.jp-log"
+       }
+     },
+     "WebBucket": {
+       "Type": "AWS::S3::Bucket",
+       "Properties": {
+         "BucketName": "fujisaki20150301.scarecrow.jp"
+       }
+     }
+   }
+}
